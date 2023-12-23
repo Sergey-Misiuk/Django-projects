@@ -1,0 +1,39 @@
+{% extends "catalog/pattern.html" %}
+
+{% block title %}Author Detail{% endblock %}
+
+
+{% block content %}
+<div class="book-card-detail">
+  <h1>Author:</h1>
+  
+  <div class="book-detail-info">
+
+    <p><strong>First name:</strong> {{ author.first_name }}</p>
+    <p><strong>Last name:</strong> {{ author.last_name }}</p>
+    <p><strong>Date of birth:</strong> {{ author.date_of_birth }}</p>
+    <p><strong>Date of death:</strong> 
+      {%if author.date_of_death%} 
+      {{ author.date_of_death }} 
+      {% else %} 
+        Жив 
+      {% endif %}
+    </p>
+
+  </div>
+  
+  <div style="margin-left:20px;margin-top:20px">
+    <h4><strong>Books:</strong></h4>
+    
+    <ul>
+        {% for book in author.book_set.all %}
+        <li style="list-style: inside"><a href="{% url 'book_detail' book.pk %}">{{book}}</a></li>
+        {% endfor %}
+    </ul>
+    
+    </div>
+
+</div>
+
+  
+{% endblock %}

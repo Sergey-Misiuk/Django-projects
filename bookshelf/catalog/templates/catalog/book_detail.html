@@ -1,0 +1,81 @@
+{% extends 'catalog/pattern.html' %}
+
+
+{% block title %}Book Detail{% endblock %}
+
+
+{% block content %}
+  <div class="book-card-detail">
+
+    <h1>Название: {{ book.title }}</h1>
+  
+    <p class="book-img-detail"><img src="{{ book.image.url }}" alt="" ></p>
+    <div class="book-detail-info">
+
+      <p><strong>Автор:</strong> <a href="{% url 'author_detail' book.author.pk %}">{{ book.author }}</a></p>
+      <p><strong>Жанр:</strong> {% for genre in book.genre.all %} {{ genre.get_name_display }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+      <p><strong>Язык:</strong> {{ book.language.get_name_display }}</p>
+      <p><strong>Описание:</strong> {{ book.summary }}</p>
+      <p class="read-book"><a href="{{ book.pdf_file_book.url }}" >Читать книгу</a></p>
+    </div>
+  
+  
+    
+      {% if  book_db  and user_db %}
+      <div class="but1">
+        <form action="{% url 'delete_profile_book' book.id %}" method="post">
+          {% csrf_token %}
+          {{ forms }}
+          <p class="read-book">
+
+            <button type="submit">Убрать книгу из полки</button>
+          </p>
+        </form>
+      </div>
+  
+      {% else %}
+        <div class="but2">
+          <form action="{% url 'add_profile_book' book.id %}" method="post">
+            {% csrf_token %}
+            {{ forms }}
+            <p class="read-book">
+
+              <button type="submit" >Положить книгу к себе на полку</button>
+            </p>
+          </form>
+        </div>
+  
+      {%if user.is_authenticated %}
+      {% endif %}
+  
+  
+      {% endif %}
+      <div class="change-coment">
+      <hr>
+      <p class="comment">Добавить коментарий</p>
+    
+      <div>
+        <form action="{% url 'book_comment' book.id %}" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <p class="read-book">
+
+            <button type="submit">Добавить</button>
+          </p>
+        </form>
+      </div>
+  
+    <hr>
+  
+    <p class="comment">Комментарии:</p>
+    {% for review in book.reviews_set.all %}
+      <div class="comment-user">
+        <h3>{{ review.user }}- {{ review.pub_date }}:</h3>
+        <p>-{{ review.content }}</p>
+        {% if not forloop.last %} <hr> {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+
+{% endblock %}

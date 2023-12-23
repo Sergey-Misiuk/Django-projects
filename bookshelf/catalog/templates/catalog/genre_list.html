@@ -1,0 +1,75 @@
+{% extends 'catalog/pattern.html' %}
+
+{% block content %}
+
+{% if book_list %}
+<div class="genre-list">
+    <ul>
+        <div class="genre-table">
+            <li class="genre-title">
+                Жанры
+            </li>
+            <div class="genre-list-td">
+                {% for genre in genre %}
+                    <li>
+                        <span class="genre-span"><a href="{{ genre.get_absolute_url }}">{{ genre.get_name_display }}</a></span>
+                    </li>
+                {% endfor %}
+            </div>
+        </div>
+    </ul>
+</div>
+
+
+<div class="list-info">
+        <h2>Жанр: {{ genre_name.get_name_display }}</h2>
+    
+        <ul class="ul-list-book">
+        {% for book in book_list %}
+        <li>
+            <div class="book-card">
+                <div class="book-img">
+    
+                    <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt=""></a>
+                </div>
+                <div class="book-info">
+    
+                    <strong>Название:
+                        <a href="{{ book.get_absolute_url }}">
+                            {{ book.title }}
+                        </a> 
+    
+                    </strong>
+        
+                    <h4>Автор: 
+                        <a href="{{ book.author.get_absolute_url }}">
+                            {{book.author}}
+                        </a>
+                    </h4>
+                    <h4>Жанр: {% for genre in book.genre.all %} {{ genre.get_name_display }}{% if not forloop.last %}, {% endif %}{% endfor %}</h4>
+                    <h4>
+                        Язык: {{ book.language.get_name_display }}
+                    </h4>
+                    <p>
+                        <strong>Описание</strong>: {{ book.summary }}
+                    </p>  
+                </div>
+                <div class="book-read">
+    
+                    <a href="{{ book.get_absolute_url }}">Читать</a>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    
+        </ul>
+        {% else %}
+        <h1 class="masage2">There are no books in the library.  :(</h1>
+        {% endif %}
+</div>
+{% endblock %}
+
+
+
+
+<!-- Не реализовано чтение pdf файла!!!!!  -->

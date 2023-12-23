@@ -1,0 +1,44 @@
+{% extends 'catalog/pattern.html' %}
+
+
+{% block title %}Home Page{% endblock %}
+
+
+
+
+{% block content %}
+
+
+{% load static %}
+
+<div class="home-info">
+    <h1>BookShelf</h1>
+    <p>Здесь вы найдете книги любого жанра</p>
+
+    <ul>
+        <li><strong>Количество книг в нашей полке:</strong> {{ num_book }}</li>
+        <li><strong>Количество авторов книг:</strong> {{ num_author }}</li>
+    </ul>
+</div>
+
+
+<div class="list-img">
+
+    <div class="imgblock">
+        
+        <img  src="{% static 'catalog/img/img_back.jpg' %}" alt="My image"/>
+        <img  src="{% static 'catalog/img/img2.jpg' %}" alt="My image"/>
+        <img  src="{% static 'catalog/img/img3.jpg' %}" alt="My image"/>
+    
+    </div>
+    <div class="imgblock">
+        
+        <img  src="{% static 'catalog/img/img4.jpg' %}" alt="My image"/>
+        <img  src="{% static 'catalog/img/img5.jpg' %}" alt="My image"/>
+        <img  src="{% static 'catalog/img/img6.jpg' %}" alt="My image"/>
+    
+    </div>
+</div>
+
+
+{% endblock %}

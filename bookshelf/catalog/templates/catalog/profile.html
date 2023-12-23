@@ -1,0 +1,66 @@
+{% extends 'catalog/pattern.html' %}
+
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+
+
+<div class="list-info">
+
+    <h2>Страница профиля</h2>
+    <h2>{{user}}</h2>
+    
+    
+    {% if book %}
+        {% for book in book %}
+    
+    
+        {% if user.id == book.user_id %}
+        <ul class="ul-list-book">
+            <li>
+               <div class="book-card">
+            <div class="book-img">
+
+                <a href="{{ book.book.get_absolute_url }}"><img src="{{ book.book.image.url }}" alt=""></a>
+            </div>
+            <div class="book-info">
+
+                <strong>Название:
+                    <a href="{{ book.book.get_absolute_url }}">
+                        {{ book.book.title }}
+                    </a> 
+
+                </strong>
+    
+                <h4>Автор: 
+                    <a href="{{ book.book.author.get_absolute_url }}">
+                        {{book.book.author}}
+                    </a>
+                </h4>
+                <h4>Жанр: {% for genre in book.book.genre.all %} {{ genre.get_name_display }}{% if not forloop.last %}, {% endif %}{% endfor %}</h4>
+                <h4>
+                    Язык: {{ book.book.language.get_name_display }}
+                </h4>
+                <p>
+                    <strong>Описание</strong>: {{ book.book.summary }}
+                </p>  
+            </div>
+            <div class="book-read">
+
+                <a href="{{ book.book.get_absolute_url }}">Читать</a>
+            </div>
+        </div>
+            </li>
+        </ul>
+        {% endif %}
+    
+        {% endfor %}
+    
+    {% else %}
+        <h1 class="masage">Тут нет ни одной книги, выбирите книгу и добавьте к себе на полку</h1>
+    
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'catalog/css/styles.css' %}">
+</head>
+
+<body>
+    {% block navbar %}
+    <div class="navbar">
+        <ul class="ul_navbar">
+            <li><a href="{% url 'index' %}">Главная</a></li>
+            <li><a href="{% url 'book' %}">Книги</a></li>
+            <li><a href="{% url 'author' %}">Авторы</a></li>
+            <li>
+                <form action="{% url 'search' %}" method="get">
+                    <input type="search" placeholder="Введите название..." name="q" id="">
+                    <button type="submit">Найти</button>
+                </form>
+            </li>
+            
+        {% if user.is_authenticated %}
+            <span><a href="{% url 'profile' %}">Профиль:</a>{{ user.get_username }}</span>
+            <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
+       {% else %}
+            <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>
+            <li><a href="{% url 'register' %}">Регистрация</a></li>
+       {% endif %}
+        </ul>
+    </div>
+
+
+
+
+    <div class="main">
+
+        <div class="sidebar-nav">
+            {% block sidebar %}
+    
+            {% if user.is_staff %}
+            <div class="sidebar">
+    
+                <ul class="sidebar-nav">
+                    <div class="sidebar-li">
+                        <li class="sidebar-title">Инструменты</li>
+                        <li><a href="{% url 'author_create' %}">Создать Автора</a></li>
+                        <li><a href="{% url 'book_create' %}">Создать Книгу</a></li>
+                    </div>
+                
+                <!-- Нужнный метод для контроля URL адресов -->
+                {% if  request.resolver_match.view_name == 'author_detail' %}
+                <div class="sidebaar-li, sidebar-author">
+                    <li class="sidebar-title">Редактирование автора:</li>
+                    <li><a href="{% url 'author_update' author.pk %}">Обновить Автора</a></li>
+                    <li><a href="{% url 'author_delete' author.pk %}">Удалить Автора</a></li>
+                </div>
+                {% endif %}
+        
+                {% if request.resolver_match.view_name == 'book_detail'%}
+                <div class="sidebar-li">
+
+                    <li class="sidebar-title">Редактирование книги:</li>
+                    <li><a href="{% url 'book_update' book.pk %}">Обновить Книгу</a></li>
+                    <li><a href="{% url 'book_delete' book.pk %}">Удалить Книгу</a></li>
+                </div>
+                {% endif %}
+                </ul>
+                {% endif %}
+        
+                {% endblock %}
+            </div>
+        </div>
+        {% endblock %}
+    
+        
+    
+    
+    
+        {% block content %}{% endblock %}
+
+        {% block pagination %}
+        {% if is_paginated %}
+        <div class="page-pag">
+
+            <div class="read-book">
+              <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Пред.стр</a>
+                {% endif %}
+                <span class="page-current">
+                    Страница: {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">След.стр</a>
+                {% endif %}
+              </span>
+            </div>
+        </div>
+        {% endif %}
+      {% endblock %}
+    </div>
+
+</body>
+</html>

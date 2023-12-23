@@ -1,0 +1,17 @@
+{% extends "catalog/pattern.html" %}
+
+{% block content %}
+
+<div class="form-post">
+  <h1>Delete Author</h1>
+  
+  <h2>Are you sure you want to delete the author: {{ author }}?</h2>
+  
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Yes, delete." class="input-delete"/>
+  </form>
+
+</div>
+
+{% endblock %}

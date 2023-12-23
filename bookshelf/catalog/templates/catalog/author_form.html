@@ -1,0 +1,15 @@
+{% extends "catalog/pattern.html" %}
+
+{% block content %}
+
+<div class="form-post">
+    <h1>Регистрация Автора</h1>
+    <form action="" method="post" class="form-author">
+        {% csrf_token %}
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="Регистрация"  class="but-input"/>
+    </form>
+</div>
+{% endblock %}
