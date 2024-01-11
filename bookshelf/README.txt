@@ -1,1 +1,1 @@
-This is the second bookshelf project. It is a test and is not subject to release.
+This is the bookshelf project. It is a test and is not subject to release.
